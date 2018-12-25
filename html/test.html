@@ -1,0 +1,75 @@
+<html>
+    <head>
+        <title>Dynamic q&a application</title>
+        <style type="text/css">
+            .wrap{
+                width: 500px;
+                height: 500px;
+                background: green;
+            }
+            .head{
+                color: red;
+            }
+            .answer{
+                color: blue;
+            }
+            .btn{
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <h2 class="head"></h2>
+            <!-- 想对input radio后面的值操作，可以在其后面加上span标签 -->
+            <input type="radio" name="answer" value="A"><span class="answer">1</span>
+            <input type="radio" name="answer" value="B"><span class="answer">2</span>
+            <input type="radio" name="answer" value="C"><span class="answer">3</span>
+            <input type="radio" name="answer" value="D"><span class="answer">4</span>
+            <div class="btn">
+                <button>next</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
+    <script>
+      var allQuestions = [
+       {
+           question: "Who is Prime Minister of the United Kingdom?",
+           choices: [
+              "David Cameron",
+              "Gordon Brown",
+              "Winston Churchill",
+              "Tony Blair"],
+           correctAnswer: 0
+       },
+       {
+           question: "Who am I?",
+           choices: [
+              "Kangkang",
+              "Maria",
+              "Michale",
+              "jack"],
+           correctAnswer: 0
+       }
+   ]
+    var i = 0
+    $(".head").text(allQuestions[i].question)
+    for(var j = 0; j < allQuestions[i].choices.length; j++)
+        $(".answer").eq(j).text(allQuestions[i].choices[j])
+    i++
+    $(".btn").click(function(){
+        console.log(1)
+        if(i == allQuestions.length)
+        {
+            alert("后面没有题目了哦")
+        }
+        else{
+            $(".head").text(allQuestions[i].question)
+            for(var j = 0; j < allQuestions[i].choices.length; j++)
+                $(".answer").eq(j).text(allQuestions[i].choices[j])
+        }
+        i++
+    })
+    </script>
+</html>

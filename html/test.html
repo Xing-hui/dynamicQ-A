@@ -1,3 +1,21 @@
+<!-- bug记录
+1. 界面有些丑
+2. 第一次的选择影响后面的选择
+3. 允许用户返回修改答案
+4. 用jQuery添加动画（淡出当前动画，淡入下个动画）
+5. 在IE8和IE9下测试，修改bug
+6. 把问题导出JSON文件
+7. 添加用户认证，允许用户登陆，把用户认证信息保存在本地存储（local storage，HTML5浏览器存储）
+8. 使用cookies记住用户，当用户再次登陆时显示“欢迎用户名回来”。
+9. 页面布局使用Twitter Bootstrap，把问答的元素弄得看起来专业一些。而作为额外奖励，用Twitter Bootstrap的标签控件显示问题，每个标签显示一个问题。
+https://getbootstrap.com/2.3.2/      https://getbootstrap.com/2.3.2/components.html#navs
+10. 学习Handlebars.js，将Handlebars.js模板用在问答应用上。你的JavaScript代码中不应该再出现HTML代码了。
+http://javascriptissexy.com/handlebars-js-tutorial-learn-everything-about-handlebars-js-javascript-templating/
+11. 记录参加问答的用户成绩，展示用户在问答应用中与其他用户的排名比较。
+12. 运用backbone.js和node.js，数据保存在mongoDB数据库上
+13. 构思一个项目，趁热打铁迅速的去开发，不要忘记stack overflow
+ -->
+
 <html>
     <head>
         <title>Dynamic q&a application</title>
@@ -22,12 +40,12 @@
         <div class="wrap">
             <h2 class="head"></h2>
             <!-- 想对input radio后面的值操作，可以在其后面加上span标签 -->
-            <input type="radio" name="answer" value="A"><span class="answer">1</span>
-            <input type="radio" name="answer" value="B"><span class="answer">2</span>
-            <input type="radio" name="answer" value="C"><span class="answer">3</span>
-            <input type="radio" name="answer" value="D"><span class="answer">4</span>
+            <input type="radio" name="answer" value="A"><span class="answer"></span>
+            <input type="radio" name="answer" value="B"><span class="answer"></span>
+            <input type="radio" name="answer" value="C"><span class="answer"></span>
+            <input type="radio" name="answer" value="D"><span class="answer"></span>
             <div class="btn">
-                <button>next</button>
+                <button class="back">back</button><button class="next">next</button>
             </div>
         </div>
     </body>
@@ -56,10 +74,32 @@
     var i = 0
     $(".head").text(allQuestions[i].question)
     for(var j = 0; j < allQuestions[i].choices.length; j++)
+       // jq 的索引值为eq函数
         $(".answer").eq(j).text(allQuestions[i].choices[j])
-    i++
-    $(".btn").click(function(){
-        console.log(1)
+
+    // back 按钮的点击函数
+    $(".back").click(function(){
+        i--
+        // 判断前面是否还有题目
+        if(i < 0)
+        {
+            alert("前面没有题目了哦")
+        }
+        else{
+            $(".head").text(allQuestions[i].question)
+            for(var j = 0; j < allQuestions[i].choices.length; j++)
+                $(".answer").eq(j).text(allQuestions[i].choices[j])
+        }
+    })
+
+    // next按钮的点击函数
+    $(".next").click(function(){
+        i++
+        // jq以此来判断单选是否已经选择
+        if($(":radio[name='answer']:checked").length == 0){
+            alert("此题还没有选择")
+            return -1;
+        }
         if(i == allQuestions.length)
         {
             alert("后面没有题目了哦")
@@ -69,7 +109,6 @@
             for(var j = 0; j < allQuestions[i].choices.length; j++)
                 $(".answer").eq(j).text(allQuestions[i].choices[j])
         }
-        i++
     })
     </script>
 </html>
